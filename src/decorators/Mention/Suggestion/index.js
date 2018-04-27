@@ -91,7 +91,7 @@ function getSuggestionComponent() {
 
     state: Object = {
       style: { left: 15 },
-      activeOption: -1,
+      activeOption: 0,
       showSuggestions: true,
     };
 
@@ -162,13 +162,13 @@ function getSuggestionComponent() {
     onOptionMouseEnter = (event) => {
       const index = event.target.getAttribute('data-index');
       this.setState({
-        activeOption: index,
+        activeOption: parseInt(index),
       });
     }
 
     onOptionMouseLeave = () => {
       this.setState({
-        activeOption: -1,
+        activeOption: 0,
       });
     }
 
@@ -201,6 +201,10 @@ function getSuggestionComponent() {
           }
           return suggestion.value.toLowerCase()
             .indexOf(mentionText && mentionText.toLowerCase()) >= 0;
+        });
+        //fix focus in case options list get shorter and mouse leave event is not fired
+        this.setState({
+          activeOption: 0,
         });
     }
 
